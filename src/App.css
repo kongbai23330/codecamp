@@ -1,38 +1,48 @@
+/* App.css */
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  min-height: 100vh;
+  text-align: left; /* 左对齐而不是居中 */
 }
 
-.App-link {
-  color: #61dafb;
+
+
+/* 添加一个侧边栏样式 */
+.sidebar {
+  background-color: #f0f0f0; /* 侧边栏的背景颜色 */
+  padding: 10px;
+  width: 250px; /* 侧边栏宽度 */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* 更新主内容区域样式 */
+.main-content {
+  flex-grow: 1; /* 让主内容区域填充剩余空间 */
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* 创建一个灵活的网格布局 */
+  gap: 20px;
+}
+
+.image-card {
+  border: none; /* 移除边框 */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* 添加阴影效果 */
+  border-radius: 8px; /* 添加圆角 */
+  overflow: hidden; /* 确保内容不超出边界 */
+}
+
+.image-card img {
+  width: 100%; /* 确保图片填充卡片 */
+  display: block; /* 避免底部空白 */
+  border-bottom: 1px solid #ccc; /* 在图片和文字之间添加分隔线 */
+}
+
+/* 添加响应式设计 */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100px; /* 缩小侧边栏宽度 */
   }
-  to {
-    transform: rotate(360deg);
+  .main-content {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* 调整网格列的大小 */
   }
 }
