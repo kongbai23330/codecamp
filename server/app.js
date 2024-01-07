@@ -11,7 +11,7 @@ const cors = require('cors');
 app.use(cors());
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/CodeCamp2024', {
+mongoose.connect('mongodb://localhost:27017/CodeCamp2024', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
@@ -30,6 +30,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/posts', postsRouter);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+// In your Express app setup
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 
 
 

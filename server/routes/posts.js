@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
-var multer = require('multer');
-var upload = multer({ dest: 'uploads/' });
+const multer = require('multer');
+const storage = multer.memoryStorage(); // Use memory storage
+const upload = multer({ storage: storage });
 
 var Post = require('../model/Post');
 
@@ -30,12 +31,37 @@ router.post('/', async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 });
+router.post('/image', upload.single('image'), async (req, res) => {
+    const { title, content } = req.body;
+    let images = [];
 
-// GET route for fetching all posts
-router.get('/', function (req, res, next) {
-    Post.find(function (err, posts) {
-        if (err) { return next(err); }
-        res.json(posts);
-    });
+    if (req.file) {
+        // Convert the file to a Base64 string
+        const imgBase64 = Buffer.from(req.file.buffer).toString('base64');
+        images.push(imgBase64);
+    }
+
+    try {
+        const newPost = new Post({
+            title,
+            content,
+            images // Now this contains Base64 strings of images
+        });
+
+        const savedPost = await newPost.save();
+        res.status(201).json(savedPost);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
 });
+// GET route for fetching all posts
+router.get('/', async (req, res, next) => {
+    try {
+        const posts = await Post.find();
+        res.json(posts);
+    } catch (err) {
+        next(err);
+    }
+});
+
 module.exports = router;
