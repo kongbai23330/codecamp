@@ -3,9 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "node ./bin/www",
-    "preinstall": "cd server && npm install",
-    "dev:server": "cd server && npm run dev"
+    "dev": "nodemon ./bin/www",
+    "dev:server": "npm run dev"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",

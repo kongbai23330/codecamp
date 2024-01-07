@@ -3,33 +3,32 @@ var router = express.Router();
 var multer = require('multer');
 var upload = multer({ dest: 'uploads/' });
 
-var Post = require('../models/post');
+var Post = require('../model/Post');
 
-router.get('/', async (req, res) => {
-    try {
-        const posts = await Post.find();
-        res.json(posts);
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
-});
+// router.get('/', async (req, res) => {
+//     try {
+//         const posts = await Post.find();
+//         res.json(posts);
+//     } catch (err) {
+//         res.status(500).json({ message: err.message });
+//     }
+// });
 // POST route for creating a new post
-router.post('/', upload.array('images'), function (req, res, next) {
-    // Convert multer's req.files to an array of image paths
-    var imagePaths = req.files.map(file => file.path);
+router.post('/', async (req, res) => {
+    const { title, content, images } = req.body;
 
-    // Create a new post using the title, content from req.body, and image paths
-    var newPost = new Post({
-        title: req.body.title,
-        content: req.body.content,
-        images: imagePaths
-    });
+    try {
+        const newPost = new Post({
+            title,
+            content,
+            images // Assuming you send images as an array of strings (URLs)
+        });
 
-    // Save the post to the database
-    newPost.save(function (err, post) {
-        if (err) { return next(err); }
-        res.status(201).json(post);
-    });
+        const savedPost = await newPost.save();
+        res.status(201).json(savedPost);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
 });
 
 // GET route for fetching all posts

@@ -15,6 +15,12 @@ mongoose.connect('mongodb://localhost/CodeCamp2024', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function () {
+    console.log("We're connected to the database!");
+});
+
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -25,13 +31,6 @@ app.use('/posts', postsRouter);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-var postSchema = new mongoose.Schema({
-    title: String,
-    content: String,
-    images: [String], // Array of image paths or URLs
-    createdAt: { type: Date, default: Date.now }
-});
 
-var Post = mongoose.model('Post', postSchema);
 
 module.exports = app;
