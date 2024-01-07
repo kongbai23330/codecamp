@@ -14,35 +14,35 @@ function App() {
     <Router>
       <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
         {/* Header area with title and search bar */}
-        <Box sx={{ 
-  display: 'flex', 
-  justifyContent: 'space-between', // This will push the children to the edges
-  alignItems: 'center', 
-  p: 2, 
-  bgcolor: 'white' 
-}}>
-  <Typography 
-    variant="h4" 
-    sx={{ 
-      color: '#033375', 
-      marginLeft: '10px' // Use margin instead of absolute positioning
-    }}
-  >
-    TravelFinland
-  </Typography>
-  <Box sx={{ 
-    flexGrow: 1, 
-    display: 'flex', 
-    justifyContent: 'center' // Center the search bar in the available space
-  }}>
-    <SearchBar />
-  </Box>
-  <Box sx={{ 
-    flexGrow: 0 // Ensure UserInfo doesn't grow and stays on the right
-  }}>
-    <UserInfo />
-  </Box>
-</Box>
+        <Box sx={{
+          display: 'flex',
+          justifyContent: 'space-between', // This will push the children to the edges
+          alignItems: 'center',
+          p: 2,
+          bgcolor: 'white'
+        }}>
+          <Typography
+            variant="h4"
+            sx={{
+              color: '#033375',
+              marginLeft: '10px' // Use margin instead of absolute positioning
+            }}
+          >
+            TravelFinland
+          </Typography>
+          <Box sx={{
+            flexGrow: 1,
+            display: 'flex',
+            justifyContent: 'center' // Center the search bar in the available space
+          }}>
+            <SearchBar />
+          </Box>
+          <Box sx={{
+            flexGrow: 0 // Ensure UserInfo doesn't grow and stays on the right
+          }}>
+            <UserInfo />
+          </Box>
+        </Box>
 
 
         {/* Main content area */}

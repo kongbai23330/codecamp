@@ -1,21 +1,30 @@
 // Page.js
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import ImageCard from './ImageCard';
 import { Box, styled } from '@mui/material';
 import HorizontalNav from './HorizontalNav';
 
 const Page = () => {
+  const [posts, setPosts] = useState([]);
   const categories = ['food', 'transport', 'popular', 'schedule', 'Q&A'];
-  const images = [
-    { src: 'img/Rigs_of_Vienna.jpg', label: 'Rigs of Vienna', id: 1 },
-    { src: 'img/swiss.jpg', label: 'swiss', id: 2 },
-    { src: 'img/Rigs_of_Vienna.jpg', label: 'Rigs of Vienna', id: 3 },
-    { src: 'img/Rigs_of_Vienna.jpg', label: 'Rigs of Vienna', id: 4 },
-    { src: 'img/Rigs_of_Vienna.jpg', label: 'Rigs of Vienna', id: 5 },
-    { src: 'img/Rigs_of_Vienna.jpg', label: 'Rigs of Vienna', id: 6 },
-    // ...other images
-  ];
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await fetch('http://localhost:1234/posts'); // Use your actual backend URL
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        setPosts(data);
+      } catch (error) {
+        console.error("Could not fetch posts: ", error);
+      }
+    };
+
+    fetchPosts();
+  }, []);
 
   const ImageCardStyled = styled(ImageCard)({
     maxWidth: '250px', // Adjust width as needed
@@ -33,9 +42,20 @@ const Page = () => {
           <HorizontalNav categories={categories} />
           {/* Image grid */}
           <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 2 }}>
-            {images.map((image) => (
-              <ImageCardStyled key={image.id} src={image.src} label={image.label} id={image.id} />
+            {posts.map((post) => (
+              
+              post.images.map((image, index) => (
+                <ImageCardStyled
+                  key={`${post._id}_${index}`}
+                  src={`data:image/jpeg;base64,${post.images[index]}`} // Use the correct MIME type
+                  label={post.title}
+                  id={`${post._id}_${index}`}
+                />
+
+              ))
+              
             ))}
+
           </Box>
         </Box>
       </Box>

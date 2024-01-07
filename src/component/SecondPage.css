@@ -1,60 +1,80 @@
 /* SecondPage.css */
 
 .page-container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 }
 
 .header {
-  width: 100%;
-  display: flex;
-  justify-content: space-between; /* Adjusted for space-between */
-  align-items: center;
-  padding: 16px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    /* Adjusted for space-between */
+    align-items: center;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .content-container {
-  display: flex;
-  
-  flex-grow: 1; /* Added to make sure it takes the remaining height */
+    display: flex;
+
+    flex-grow: 1;
+    /* Added to make sure it takes the remaining height */
 }
 
 .vertical-sidebar {
-  flex: 0 0 700px; /* flex-grow flex-shrink flex-basis */
-  /* This sets the sidebar to a fixed width of 700px and it won't grow or shrink */
-  /* Remove the width property if you're using flex to define width */
-  max-height: calc(100vh - 64px); /* Adjust the 64px if your header is a different height */
+    flex: 0 0 700px;
+    /* flex-grow flex-shrink flex-basis */
+    /* This sets the sidebar to a fixed width of 700px and it won't grow or shrink */
+    /* Remove the width property if you're using flex to define width */
+    max-height: calc(100vh - 64px);
+    /* Adjust the 64px if your header is a different height */
 }
+
 .user-info {
-  margin-right: 36px; /* This will push the UserInfo to the left */
-  margin-left: 16px; /* Adjust this value as needed to move the UserInfo to the left */
+    margin-right: 36px;
+    /* This will push the UserInfo to the left */
+    margin-left: 16px;
+    /* Adjust this value as needed to move the UserInfo to the left */
 }
+
 .main-content {
-  display: flex;
-  flex:1;
-  flex-direction: column;
-  align-items: center; /* Align the form to the center */
-  justify-content: start; /* Align the content to the start */
-  padding: 16px;
-  width: 100%; /* Take up all available width */
-  max-width: none; /* Adjusted to allow the form to be as wide as needed */
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    /* Align the form to the center */
+    justify-content: start;
+    /* Align the content to the start */
+    padding: 16px;
+    width: 100%;
+    /* Take up all available width */
+    max-width: none;
+    /* Adjusted to allow the form to be as wide as needed */
 }
 
 .publish-form {
-  width: 80%; /* Adjusted to 80% of the main-content width */
-  max-width: 800px; /* Adjust the max-width as necessary */
-  margin: 0 auto; /* Center the form in the available space */
+    width: 80%;
+    /* Adjusted to 80% of the main-content width */
+    max-width: 800px;
+    /* Adjust the max-width as necessary */
+    margin: 0 auto;
+    /* Center the form in the available space */
 }
 
 .form-field {
-  width: 100%; /* Make input fields full width */
-  margin-bottom: 16px; /* Space out the fields */
+    width: 100%;
+    /* Make input fields full width */
+    margin-bottom: 16px;
+    /* Space out the fields */
 }
 
 .publish-button {
-  width: 100%; /* Adjusted to full width */
-  padding: 10px 0; /* Adjusted padding */
-  margin-top: 16px; /* Space at the top */
+    width: 100%;
+    /* Adjusted to full width */
+    padding: 10px 0;
+    /* Adjusted padding */
+    margin-top: 16px;
+    /* Space at the top */
 }

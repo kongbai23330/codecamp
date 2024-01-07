@@ -6,24 +6,21 @@ import './SecondPage.css';
 import { Box } from '@mui/material';
 
 const SecondPage = () => {
-  return (
-    <div className="page-container">
-      <div className="header">
-        <h1>Travel Finland</h1>
-        <UserInfo />
-      </div>
-      
-      <div className="content-container">
-        <VerticalSidebar />
-        
-        <div className="main-content">
-          
-          <PublishForm />
+    return (
+        <div className="page-container">
+            
+
+            <div className="content-container">
+               
+
+                <div className="main-content">
+
+                    <PublishForm />
+                </div>
+            </div>
+
         </div>
-      </div>
-      
-    </div>
-  );
+    );
 };
 
 export default SecondPage;

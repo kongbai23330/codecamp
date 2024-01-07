@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Box, Button, Typography, styled } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
@@ -32,23 +32,37 @@ const NextButton = styled(Button)({
 
 const Post = () => {
     let { id } = useParams();
-    const [currentIndex, setCurrentIndex] = useState(parseInt(id));
+    const [post, setPost] = useState(null);
 
-    const nextPost = () => {
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % posts.length);
-    };
+    useEffect(() => {
+        const fetchPost = async () => {
+            try {
+                const response = await fetch(`http://localhost:1234/posts/${id}`); // Adjust with your actual backend URL
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                setPost(data);
+            } catch (error) {
+                console.error("Could not fetch post: ", error);
+            }
+        };
 
-    const post = posts[currentIndex];
+        fetchPost();
+    }, [id]);
+
+    if (!post) {
+        return <Typography>Loading...</Typography>;
+    }
 
     return (
         <PostContainer>
-            <PostImage src={post.src} alt={`Post ${currentIndex}`} />
-            <Typography variant="body1">{post.text}</Typography>
-            <NextButton onClick={nextPost}>
-                <ArrowForwardIosIcon />
-            </NextButton>
+            <PostImage src={post.images[0]} alt={`Post ${post.title}`} />
+            <Typography variant="body1">{post.content}</Typography>
+            {/* Handle next post logic */}
         </PostContainer>
     );
 };
+
 
 export default Post;
