@@ -1,33 +1,40 @@
 // Page.js
 import React from 'react';
-import SearchBar from './HorizontalNav';
+
 import ImageCard from './ImageCard';
-import HorizontalNav from './Sidebar';
-import VerticalSidebar from './VerticalSidebar';
-import { Box } from '@mui/material';
+import { Box, styled } from '@mui/material';
+import HorizontalNav from './HorizontalNav';
 
 const Page = () => {
-  const categories = ['Discovering', 'food', 'transport', 'popular', 'schedule', 'Q&A'];
+  const categories = ['food', 'transport', 'popular', 'schedule', 'Q&A'];
   const images = [
-    { src: 'path-to-your-image.jpg', label: 'Restaurant A' },
+    { src: 'img/Rigs_of_Vienna.jpg', label: 'Rigs of Vienna', id: 1 },
+    { src: 'img/swiss.jpg', label: 'swiss', id: 2 },
+    { src: 'img/Rigs_of_Vienna.jpg', label: 'Rigs of Vienna', id: 3 },
+    { src: 'img/Rigs_of_Vienna.jpg', label: 'Rigs of Vienna', id: 4 },
+    { src: 'img/Rigs_of_Vienna.jpg', label: 'Rigs of Vienna', id: 5 },
+    { src: 'img/Rigs_of_Vienna.jpg', label: 'Rigs of Vienna', id: 6 },
     // ...other images
   ];
 
+  const ImageCardStyled = styled(ImageCard)({
+    maxWidth: '250px', // Adjust width as needed
+    height: 'auto', // Adjust height as needed to maintain aspect ratio
+  });
+
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-      {/* Header with only a logo and the SearchBar, no background color */}
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: 2 }}>
-        <h1 style={{ color: 'blue' }}>Travel Finland</h1>
-        <SearchBar />
-      </Box>
-      {/* Main content area */}
       <Box sx={{ display: 'flex', flexGrow: 1 }}>
-        <VerticalSidebar /> {/* Vertical sidebar */}
-        <Box sx={{ flexGrow: 1, p: 3 }}>
-          <HorizontalNav categories={categories} /> {/* Horizontal navbar */}
-          <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 2 }}>
-            {images.map((image, index) => (
-              <ImageCard key={index} src={image.src} label={image.label} />
+        {/* Vertical sidebar, potentially including the logo */}
+
+        <Box sx={{ flexGrow: 1, p: 5 }}>
+          {/* Horizontal navigation bar */}
+          <HorizontalNav categories={categories} />
+          {/* Image grid */}
+          <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 2 }}>
+            {images.map((image) => (
+              <ImageCardStyled key={image.id} src={image.src} label={image.label} id={image.id} />
             ))}
           </Box>
         </Box>

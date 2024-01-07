@@ -1,22 +1,18 @@
-// SearchBar.js
-import * as React from 'react';
-import SearchIcon from '@mui/icons-material/Search';
-import { InputBase, Paper } from '@mui/material';
+// HorizontalNav.js
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Box, Button } from '@mui/material';
 
-const SearchBar = () => {
-  return (
-    <Paper
-      component="form"
-      sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}
-    >
-      <InputBase
-        sx={{ ml: 1, flex: 1 }}
-        placeholder="Search what you want"
-        inputProps={{ 'aria-label': 'search what you want' }}
-      />
-      <SearchIcon sx={{ p: '10px' }} />
-    </Paper>
-  );
+const HorizontalNav = ({ categories }) => {
+    return (
+        <Box sx={{ display: 'flex', justifyContent: 'left', gap: 2, padding: '20px 0' }}>
+            {categories.map((category, index) => (
+                <Button key={index} component={Link} to={`/${category.toLowerCase()}`}>
+                    {category}
+                </Button>
+            ))}
+        </Box>
+    );
 };
 
-export default SearchBar;
+export default HorizontalNav;
