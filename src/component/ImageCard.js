@@ -1,7 +1,7 @@
 // ImageCard.js
-import React from "react";
-import { Card, CardMedia, CardContent, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import React from 'react'
+import { Card, CardMedia, CardContent, Typography } from '@mui/material'
+import { Link } from 'react-router-dom'
 const ImageCard = ({ src, label, id }) => {
   return (
     <Card sx={{ maxWidth: 345 }}>
@@ -14,7 +14,7 @@ const ImageCard = ({ src, label, id }) => {
         </Typography>
       </CardContent>
     </Card>
-  );
-};
+  )
+}
 
-export default ImageCard;
+export default ImageCard

@@ -6,8 +6,6 @@
   text-align: left; /* 左对齐而不是居中 */
 }
 
-
-
 /* 添加一个侧边栏样式 */
 .sidebar {
   background-color: #f0f0f0; /* 侧边栏的背景颜色 */
@@ -20,13 +18,16 @@
   flex-grow: 1; /* 让主内容区域填充剩余空间 */
   padding: 20px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* 创建一个灵活的网格布局 */
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(200px, 1fr)
+  ); /* 创建一个灵活的网格布局 */
   gap: 20px;
 }
 
 .image-card {
   border: none; /* 移除边框 */
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* 添加阴影效果 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
   border-radius: 8px; /* 添加圆角 */
   overflow: hidden; /* 确保内容不超出边界 */
 }
@@ -43,6 +44,9 @@
     width: 100px; /* 缩小侧边栏宽度 */
   }
   .main-content {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* 调整网格列的大小 */
+    grid-template-columns: repeat(
+      auto-fill,
+      minmax(150px, 1fr)
+    ); /* 调整网格列的大小 */
   }
 }

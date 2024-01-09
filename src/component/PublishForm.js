@@ -1,55 +1,55 @@
 // PublishForm.js
-import React, { useState } from "react";
-import { Box, TextField, Button, Typography } from "@mui/material";
+import React, { useState } from 'react'
+import { Box, TextField, Button, Typography } from '@mui/material'
 
 const PublishForm = () => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [imagePreviews, setImagePreviews] = useState([]);
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
+  const [imagePreviews, setImagePreviews] = useState([])
 
   const handleImageChange = (event) => {
     if (event.target.files) {
-      const files = event.target.files;
-      const previews = [];
+      const files = event.target.files
+      const previews = []
 
       for (let i = 0; i < files.length; i++) {
-        previews.push(URL.createObjectURL(files[i]));
+        previews.push(URL.createObjectURL(files[i]))
       }
 
-      setImagePreviews(previews);
+      setImagePreviews(previews)
     }
-  };
+  }
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
-    const formData = new FormData();
-    const imageInput = document.getElementById("raised-button-file");
+    const formData = new FormData()
+    const imageInput = document.getElementById('raised-button-file')
 
-    formData.append("title", title);
-    formData.append("content", description);
+    formData.append('title', title)
+    formData.append('content', description)
 
     for (let i = 0; i < imageInput.files.length; i++) {
-      formData.append("images", imageInput.files[i]);
+      formData.append('images', imageInput.files[i])
     }
 
     try {
-      const response = await fetch("http://localhost:1234/posts/image", {
-        method: "POST",
+      const response = await fetch('http://localhost:1234/posts/image', {
+        method: 'POST',
         body: formData,
-      });
+      })
 
       if (response.ok) {
-        console.log("Post created successfully");
+        console.log('Post created successfully')
       } else {
-        console.log("Error in creating post, Status:", response.status);
-        const errorText = await response.text();
-        console.log("Error details:", errorText);
+        console.log('Error in creating post, Status:', response.status)
+        const errorText = await response.text()
+        console.log('Error details:', errorText)
       }
     } catch (error) {
-      console.error("There was an error submitting the form", error);
+      console.error('There was an error submitting the form', error)
     }
-  };
+  }
 
   return (
     <Box component="form" noValidate autoComplete="off" onSubmit={handleSubmit}>
@@ -71,7 +71,7 @@ const PublishForm = () => {
       />
       <input
         accept="image/*"
-        style={{ display: "none" }}
+        style={{ display: 'none' }}
         id="raised-button-file"
         multiple
         type="file"
@@ -88,7 +88,7 @@ const PublishForm = () => {
             key={index}
             src={preview}
             alt={`Preview ${index}`}
-            style={{ maxHeight: "100px", margin: "10px" }}
+            style={{ maxHeight: '100px', margin: '10px' }}
           />
         ))}
       </Box>
@@ -96,7 +96,7 @@ const PublishForm = () => {
         Publish
       </Button>
     </Box>
-  );
-};
+  )
+}
 
-export default PublishForm;
+export default PublishForm
