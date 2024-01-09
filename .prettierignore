@@ -1,7 +1,11 @@
 node_modules/
 server/node_modules/
 server/bin/
+server/package-lock.json
+server/package.json
 public/
 src/realmService.js
 src/reportWebVitals.js
 src/setupTests.js
+package-lock.json
+package.json
