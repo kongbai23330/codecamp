@@ -1,31 +1,30 @@
 // VerticalSidebar.js
-import React from 'react';
-import { useNavigate } from 'react-router-dom'; // Correctly imported useNavigate
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import HomeIcon from '@mui/icons-material/Home';
-import PublishIcon from '@mui/icons-material/Publish';
-import MoreIcon from '@mui/icons-material/MoreHoriz';
+import React from "react";
+import { useNavigate } from "react-router-dom"; // Correctly imported useNavigate
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import HomeIcon from "@mui/icons-material/Home";
+import PublishIcon from "@mui/icons-material/Publish";
+import MoreIcon from "@mui/icons-material/MoreHoriz";
 
 const VerticalSidebar = () => {
   const navigate = useNavigate();
 
   const navigateToPublish = () => {
-    navigate('/publish'); 
+    navigate("/publish");
   };
 
   const navigateToHome = () => {
-    navigate('/'); 
+    navigate("/");
   };
-
 
   return (
     <List>
       <ListItem disablePadding>
-        <ListItemButton onClick={navigateToHome}> 
+        <ListItemButton onClick={navigateToHome}>
           <ListItemIcon>
             <HomeIcon />
           </ListItemIcon>
@@ -34,7 +33,9 @@ const VerticalSidebar = () => {
       </ListItem>
       {/* ... more list items */}
       <ListItem disablePadding>
-        <ListItemButton onClick={navigateToPublish}> {/* Attach the event handler here */}
+        <ListItemButton onClick={navigateToPublish}>
+          {" "}
+          {/* Attach the event handler here */}
           <ListItemIcon>
             <PublishIcon />
           </ListItemIcon>

@@ -1,6 +1,6 @@
 // HorizontalNav.js
-import React from 'react';
-import { Button, Stack } from '@mui/material';
+import React from "react";
+import { Button, Stack } from "@mui/material";
 
 const HorizontalNav = ({ categories }) => {
   return (
