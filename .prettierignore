@@ -2,3 +2,6 @@ node_modules/
 server/node_modules/
 server/bin/
 public/
+src/realmService.js
+src/reportWebVitals.js
+src/setupTests.js
