@@ -1,51 +1,28 @@
 var express = require('express');
 var router = express.Router();
 const multer = require('multer');
-const storage = multer.memoryStorage(); // Use memory storage
+const mongoose = require('mongoose');
+const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 var Post = require('../model/Post');
 
-// router.get('/', async (req, res) => {
-//     try {
-//         const posts = await Post.find();
-//         res.json(posts);
-//     } catch (err) {
-//         res.status(500).json({ message: err.message });
-//     }
-// });
-// POST route for creating a new post
-router.post('/', async (req, res) => {
-    const { title, content, images } = req.body;
 
-    try {
-        const newPost = new Post({
-            title,
-            content,
-            images // Assuming you send images as an array of strings (URLs)
-        });
-
-        const savedPost = await newPost.save();
-        res.status(201).json(savedPost);
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
-});
-router.post('/image', upload.single('image'), async (req, res) => {
+router.post('/image', upload.array('images', 6), async (req, res) => { 
     const { title, content } = req.body;
     let images = [];
 
-    if (req.file) {
-        // Convert the file to a Base64 string
-        const imgBase64 = Buffer.from(req.file.buffer).toString('base64');
-        images.push(imgBase64);
+    if (req.files) { 
+        images = req.files.map(file => {
+            return Buffer.from(file.buffer).toString('base64');
+        });
     }
-
+    console.log(req.body)
     try {
         const newPost = new Post({
             title,
             content,
-            images // Now this contains Base64 strings of images
+            images 
         });
 
         const savedPost = await newPost.save();
@@ -54,13 +31,27 @@ router.post('/image', upload.single('image'), async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 });
-// GET route for fetching all posts
+
+
 router.get('/', async (req, res, next) => {
     try {
         const posts = await Post.find();
         res.json(posts);
     } catch (err) {
         next(err);
+    }
+});
+
+router.get('/detail', async (req, res) => {
+    try {
+        const post = await Post.findById(req.query.id);
+        if (!post) {
+            return res.status(404).send('Post not found');
+        }
+        console.log(post)
+        res.json(post);
+    } catch (error) {
+        res.status(500).send('Server error');
     }
 });
 

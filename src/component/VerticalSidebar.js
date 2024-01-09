@@ -1,5 +1,6 @@
 // VerticalSidebar.js
 import React from 'react';
+import { useNavigate } from 'react-router-dom'; // Correctly imported useNavigate
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -10,10 +11,21 @@ import PublishIcon from '@mui/icons-material/Publish';
 import MoreIcon from '@mui/icons-material/MoreHoriz';
 
 const VerticalSidebar = () => {
+  const navigate = useNavigate();
+
+  const navigateToPublish = () => {
+    navigate('/publish'); 
+  };
+
+  const navigateToHome = () => {
+    navigate('/'); 
+  };
+
+
   return (
     <List>
       <ListItem disablePadding>
-        <ListItemButton>
+        <ListItemButton onClick={navigateToHome}> 
           <ListItemIcon>
             <HomeIcon />
           </ListItemIcon>
@@ -22,7 +34,7 @@ const VerticalSidebar = () => {
       </ListItem>
       {/* ... more list items */}
       <ListItem disablePadding>
-        <ListItemButton>
+        <ListItemButton onClick={navigateToPublish}> {/* Attach the event handler here */}
           <ListItemIcon>
             <PublishIcon />
           </ListItemIcon>

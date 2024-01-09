@@ -12,7 +12,7 @@ const Page = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch('http://localhost:1234/posts'); // Use your actual backend URL
+        const response = await fetch('http://localhost:1234/posts', { method: 'get' });
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -27,8 +27,8 @@ const Page = () => {
   }, []);
 
   const ImageCardStyled = styled(ImageCard)({
-    maxWidth: '250px', // Adjust width as needed
-    height: 'auto', // Adjust height as needed to maintain aspect ratio
+    maxWidth: '250px', 
+    height: 'auto', 
   });
 
 
@@ -43,19 +43,15 @@ const Page = () => {
           {/* Image grid */}
           <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 2 }}>
             {posts.map((post) => (
-              
               post.images.map((image, index) => (
                 <ImageCardStyled
                   key={`${post._id}_${index}`}
-                  src={`data:image/jpeg;base64,${post.images[index]}`} // Use the correct MIME type
+                  src={`data:image/jpeg;base64,${post.images[index]}`}
                   label={post.title}
-                  id={`${post._id}_${index}`}
+                  id={post._id}
                 />
-
               ))
-              
             ))}
-
           </Box>
         </Box>
       </Box>

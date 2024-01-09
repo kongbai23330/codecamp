@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+
 const postSchema = new mongoose.Schema({
     title: {
         type: String,
@@ -8,7 +9,7 @@ const postSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    images: [String], // Assuming images are stored as an array of URLs
+    images: [String],
     createdAt: {
         type: Date,
         default: Date.now

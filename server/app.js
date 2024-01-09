@@ -2,6 +2,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const mongoose = require("mongoose");
+
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -10,16 +12,12 @@ var app = express();
 const cors = require('cors');
 app.use(cors());
 
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/CodeCamp2024', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-});
+const mongoDB = "mongodb://localhost:27017/CodeCamp2024";
+mongoose.connect(mongoDB);
+mongoose.Promise = Promise;
 const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function () {
-    console.log("We're connected to the database!");
-});
+
+db.on("error", console.error.bind(console, "MongoDB connection error"));
 
 
 app.use(logger('dev'));
@@ -30,8 +28,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/posts', postsRouter);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-// In your Express app setup
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// app.use('/uploads', express.static('uploads'));
 
 
 

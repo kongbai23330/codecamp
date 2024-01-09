@@ -7,7 +7,6 @@ const posts = [
     { src: 'path-to-image-2.jpg', text: 'Description for Image 2' },
     { src: '/img/Rigs_of_Vienna.jpg', text: 'This is the special meal in the popular Vienna resturant: Rigs of Vienna' },
     { src: '/img/swiss.jpg', text: 'This is the special meal in the popular Vienna resturant: Rigs of Vienna' },
-    // ...more posts
 ];
 
 const PostContainer = styled(Box)({
@@ -37,7 +36,9 @@ const Post = () => {
     useEffect(() => {
         const fetchPost = async () => {
             try {
-                const response = await fetch(`http://localhost:1234/posts/${id}`); // Adjust with your actual backend URL
+                const response = await fetch(`http://localhost:1234/posts/detail?id=${id}`, {
+                    method: 'get',
+                });
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -57,7 +58,7 @@ const Post = () => {
 
     return (
         <PostContainer>
-            <PostImage src={post.images[0]} alt={`Post ${post.title}`} />
+            <PostImage src={'data:image/jpeg;base64,' + post.images[0]} alt={`Post ${post.title}`} />
             <Typography variant="body1">{post.content}</Typography>
             {/* Handle next post logic */}
         </PostContainer>

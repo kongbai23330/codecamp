@@ -3,28 +3,37 @@ import React, { useState } from 'react';
 import { Box, TextField, Button, Typography } from '@mui/material';
 
 const PublishForm = () => {
-    const [selectedImage, setSelectedImage] = useState(null);
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [imagePreviews, setImagePreviews] = useState([]);
 
     const handleImageChange = (event) => {
-        if (event.target.files && event.target.files[0]) {
-            // Assuming only image
-            setSelectedImage(URL.createObjectURL(event.target.files[0]));
+        if (event.target.files) {
+            const files = event.target.files;
+            const previews = [];
+
+            for (let i = 0; i < files.length; i++) {
+                previews.push(URL.createObjectURL(files[i]));
+            }
+
+            setImagePreviews(previews);
         }
     };
 
+    
+
     const handleSubmit = async (event) => {
+
         event.preventDefault();
 
         const formData = new FormData();
-        const hardcodedTitle = "hello";  // Hardcoded value
-        const hardcodedContent = "hello"; // Hardcoded value
         const imageInput = document.getElementById('raised-button-file');
 
-        formData.append('title', hardcodedTitle);
-        formData.append('content', hardcodedContent);
+        formData.append('title', title);
+        formData.append('content', description);
 
-        if (imageInput.files[0]) {
-            formData.append('image', imageInput.files[0]);
+        for (let i = 0; i < imageInput.files.length; i++) {
+            formData.append('images', imageInput.files[i]); 
         }
 
         try {
@@ -35,16 +44,13 @@ const PublishForm = () => {
 
             if (response.ok) {
                 console.log('Post created successfully');
-                // Handle success - perhaps redirecting to another page or clearing the form
             } else {
                 console.log('Error in creating post, Status:', response.status);
-                const errorText = await response.text(); // or response.json() if the server sends JSON response
+                const errorText = await response.text();
                 console.log('Error details:', errorText);
-                // Display or handle the detailed error message
             }
         } catch (error) {
             console.error('There was an error submitting the form', error);
-            // Handle network error
         }
     };
 
@@ -53,8 +59,22 @@ const PublishForm = () => {
 
     return (
         <Box component="form" noValidate autoComplete="off" onSubmit={handleSubmit}>
-            <TextField fullWidth label="Title" margin="normal" />
-            <TextField fullWidth label="Description" margin="normal" multiline rows={4} />
+            <TextField 
+                fullWidth 
+                label="Title" 
+                margin="normal" 
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+            />
+            <TextField 
+                fullWidth 
+                label="Description" 
+                margin="normal" 
+                multiline 
+                rows={4} 
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+            />
             <input
                 accept="image/*"
                 style={{ display: 'none' }}
@@ -64,16 +84,15 @@ const PublishForm = () => {
                 onChange={handleImageChange}
             />
             <label htmlFor="raised-button-file">
-                <Button variant="contained" component="span" style={{ margin: '10px 0' }}>
-                    Upload Image
+                <Button variant="contained" component="span">
+                    Upload Image(s)
                 </Button>
             </label>
-            {selectedImage && (
-                <Box mt={2} mb={2}>
-                    <Typography variant="subtitle1">Selected Image Preview:</Typography>
-                    <img src={selectedImage} alt="Preview" style={{ maxHeight: '300px' }} />
-                </Box>
-            )}
+            <Box>
+                {imagePreviews.map((preview, index) => (
+                    <img key={index} src={preview} alt={`Preview ${index}`} style={{ maxHeight: '100px', margin: '10px' }} />
+                ))}
+            </Box>
             <Button type="submit" variant="contained" color="primary">
                 Publish
             </Button>
