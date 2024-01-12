@@ -1,6 +1,6 @@
 // PublishForm.js
 import React, { useState } from 'react'
-import { Box, TextField, Button, Typography } from '@mui/material'
+import { Box, TextField, Button } from '@mui/material'
 
 const PublishForm = () => {
   const [title, setTitle] = useState('')

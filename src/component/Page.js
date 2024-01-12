@@ -3,11 +3,9 @@ import React, { useEffect, useState } from 'react'
 
 import ImageCard from './ImageCard'
 import { Box, styled } from '@mui/material'
-import HorizontalNav from './HorizontalNav'
 
 const Page = () => {
   const [posts, setPosts] = useState([])
-  const categories = ['food', 'transport', 'popular', 'schedule', 'Q&A']
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -37,10 +35,7 @@ const Page = () => {
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
       <Box sx={{ display: 'flex', flexGrow: 1 }}>
         {/* Vertical sidebar, potentially including the logo */}
-
         <Box sx={{ flexGrow: 1, p: 5 }}>
-          {/* Horizontal navigation bar */}
-          <HorizontalNav categories={categories} />
           {/* Image grid */}
           <Box
             sx={{

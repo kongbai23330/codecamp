@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { Box, Button, Typography, styled } from '@mui/material'
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
+import { Box, Typography, styled } from '@mui/material'
 
-const posts = [
-  { src: 'path-to-image-2.jpg', text: 'Description for Image 2' },
-  {
-    src: '/img/Rigs_of_Vienna.jpg',
-    text: 'This is the special meal in the popular Vienna resturant: Rigs of Vienna',
-  },
-  {
-    src: '/img/swiss.jpg',
-    text: 'This is the special meal in the popular Vienna resturant: Rigs of Vienna',
-  },
-]
+// const posts = [
+//   { src: 'path-to-image-2.jpg', text: 'Description for Image 2' },
+//   {
+//     src: '/img/Rigs_of_Vienna.jpg',
+//     text: 'This is the special meal in the popular Vienna resturant: Rigs of Vienna',
+//   },
+//   {
+//     src: '/img/swiss.jpg',
+//     text: 'This is the special meal in the popular Vienna resturant: Rigs of Vienna',
+//   },
+// ]
 
 const PostContainer = styled(Box)({
   display: 'flex',
@@ -28,12 +27,12 @@ const PostImage = styled('img')({
   maxHeight: '60vh',
 })
 
-const NextButton = styled(Button)({
-  position: 'absolute',
-  right: '10px',
-  top: '50%',
-  transform: 'translateY(-50%)',
-})
+// const NextButton = styled(Button)({
+//   position: 'absolute',
+//   right: '10px',
+//   top: '50%',
+//   transform: 'translateY(-50%)',
+// })
 
 const Post = () => {
   let { id } = useParams()
