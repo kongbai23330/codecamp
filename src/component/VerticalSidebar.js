@@ -10,7 +10,7 @@ import HomeIcon from '@mui/icons-material/Home'
 import PublishIcon from '@mui/icons-material/Publish'
 import MoreIcon from '@mui/icons-material/MoreHoriz'
 
-const VerticalSidebar = () => {
+const VerticalSidebar = ({ openLoginModal }) => {
   const navigate = useNavigate()
 
   const navigateToPublish = () => {
@@ -19,6 +19,10 @@ const VerticalSidebar = () => {
 
   const navigateToHome = () => {
     navigate('/')
+  }
+
+  const openLoginCB = () => {
+    openLoginModal()
   }
 
   return (
@@ -40,6 +44,14 @@ const VerticalSidebar = () => {
             <PublishIcon />
           </ListItemIcon>
           <ListItemText primary="Publish" />
+        </ListItemButton>
+      </ListItem>
+      <ListItem disablePadding>
+        <ListItemButton onClick={openLoginCB}>
+          <ListItemIcon>
+            <MoreIcon />
+          </ListItemIcon>
+          <ListItemText primary="Login" />
         </ListItemButton>
       </ListItem>
       <ListItem disablePadding>

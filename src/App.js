@@ -3,20 +3,30 @@ import React from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Page from './component/Page'
 import Post from './component/Post'
+import { Box, Typography } from '@mui/material'
 import SearchBar from './component/SearchBar'
 import VerticalSidebar from './component/VerticalSidebar'
-import { Box, Typography } from '@mui/material'
 import SecondPage from './component/SecondPage'
 import UserInfo from './component/UserInfo'
 import PublishForm from './component/PublishForm'
+import LoginModal from './component/LoginModal'
 
 class App extends React.Component {
   state = {
     searchVal: '',
+    isLoginOpen: false,
   }
+
   searchValUpdate = (e) => {
     this.setState({ searchVal: e })
-    console.log(e)
+  }
+
+  openLoginModal = () => {
+    this.setState({ isLoginOpen: true })
+  }
+
+  closeLoginModal = () => {
+    this.setState({ isLoginOpen: false })
   }
 
   render() {
@@ -64,11 +74,15 @@ class App extends React.Component {
           <Box sx={{ display: 'flex', flexGrow: 1 }}>
             {/* Sidebar */}
             <Box sx={{ pt: '64px', width: '256px' }}>
-              <VerticalSidebar />
+              <VerticalSidebar openLoginModal={this.openLoginModal} />
             </Box>
 
             {/* Main content */}
             <Box sx={{ flexGrow: 1, p: 3 }}>
+              <LoginModal
+                open={this.state.isLoginOpen}
+                onClose={this.closeLoginModal}
+              />
               <Routes>
                 <Route
                   path="/"
