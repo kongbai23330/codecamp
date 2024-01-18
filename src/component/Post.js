@@ -70,10 +70,16 @@ const Post = () => {
       <Typography variant="body2">
         Post by {post.creator} at {post.createdAt}
       </Typography>
-      <PostImage
+      {post.images.map((image) => (
+        <PostImage
+          src={'data:image/jpeg;base64,' + image}
+          alt={`Post ${post.title}`}
+        />
+      ))}
+      {/* <PostImage
         src={'data:image/jpeg;base64,' + post.images[0]}
         alt={`Post ${post.title}`}
-      />
+      /> */}
       <Typography variant="body1">{post.content}</Typography>
       {/* Handle next post logic */}
     </PostContainer>

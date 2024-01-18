@@ -54,16 +54,22 @@ class Page extends React.Component {
                 .filter((post) =>
                   post.title.toLowerCase().includes(searchVal.toLowerCase()),
                 )
-                .map((post) =>
-                  post.images.map((image, index) => (
-                    <ImageCardStyled
-                      key={`${post._id}_${index}`}
-                      src={`data:image/jpeg;base64,${post.images[index]}`}
-                      label={post.title}
-                      id={post._id}
-                    />
-                  )),
-                )}
+                .map((post) => (
+                  // post.images.map((image, index) => (
+                  //   <ImageCardStyled
+                  //     key={`${post._id}_${index}`}
+                  //     src={`data:image/jpeg;base64,${post.images[index]}`}
+                  //     label={post.title}
+                  //     id={post._id}
+                  //   />
+                  // )),
+                  <ImageCardStyled
+                    key={`${post._id}`}
+                    src={`data:image/jpeg;base64,${post.images[0]}`}
+                    label={post.title}
+                    id={post._id}
+                  />
+                ))}
             </Box>
           </Box>
         </Box>
