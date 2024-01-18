@@ -120,7 +120,10 @@ class App extends React.Component {
                 />
                 <Route path="/SecondPage" element={<SecondPage />} />
                 <Route path="/post/:id" element={<Post />} />
-                <Route path="/publish" element={<PublishForm />} />
+                <Route
+                  path="/publish"
+                  element={<PublishForm user={this.state.loggedIn} />}
+                />
               </Routes>
             </Box>
           </Box>

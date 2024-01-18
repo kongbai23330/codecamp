@@ -12,7 +12,7 @@ router.post(
   authMiddleware,
   upload.array('images', 6),
   async (req, res) => {
-    const { title, content } = req.body
+    const { title, content, creator } = req.body
     let images = []
     if (req.files) {
       images = req.files.map((file) => {
@@ -24,6 +24,7 @@ router.post(
         title,
         content,
         images,
+        creator,
       })
       const savedPost = await newPost.save()
       res.status(201).json(savedPost)

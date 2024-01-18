@@ -14,7 +14,8 @@ const VerticalSidebar = ({ openLoginModal, loggedIn, onLogout }) => {
   const navigate = useNavigate()
 
   const navigateToPublish = () => {
-    navigate('/publish')
+    if (loggedIn) navigate('/publish')
+    else alert('One can only publish content after login')
   }
 
   const navigateToHome = () => {

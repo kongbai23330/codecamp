@@ -1,8 +1,10 @@
 // PublishForm.js
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Box, TextField, Button } from '@mui/material'
 
-const PublishForm = () => {
+const PublishForm = ({ user }) => {
+  const navigate = useNavigate()
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [imagePreviews, setImagePreviews] = useState([])
@@ -28,23 +30,25 @@ const PublishForm = () => {
 
     formData.append('title', title)
     formData.append('content', description)
+    formData.append('creator', user)
 
     for (let i = 0; i < imageInput.files.length; i++) {
       formData.append('images', imageInput.files[i])
     }
-
+    const token = localStorage.getItem('token')
     try {
       const response = await fetch('http://localhost:1234/posts/image', {
         method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
         body: formData,
       })
 
       if (response.ok) {
-        console.log('Post created successfully')
+        alert('Post created successfully')
+        navigate('/')
       } else {
-        console.log('Error in creating post, Status:', response.status)
         const errorText = await response.text()
-        console.log('Error details:', errorText)
+        alert('Error in creating post, Status:', errorText)
       }
     } catch (error) {
       console.error('There was an error submitting the form', error)

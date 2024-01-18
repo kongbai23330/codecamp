@@ -23,6 +23,7 @@ const style = {
 
 const LoginModal = ({ open, onClose, onLogin }) => {
   const loggedIn = (email) => {
+    onClose()
     onLogin(email)
   }
 

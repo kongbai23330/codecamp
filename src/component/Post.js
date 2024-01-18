@@ -67,7 +67,9 @@ const Post = () => {
   return (
     <PostContainer>
       <Typography variant="h5">{post.title}</Typography>
-      <Typography variant="body2">{post.creator}</Typography>
+      <Typography variant="body2">
+        Post by {post.creator} at {post.createdAt}
+      </Typography>
       <PostImage
         src={'data:image/jpeg;base64,' + post.images[0]}
         alt={`Post ${post.title}`}
