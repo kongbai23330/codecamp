@@ -10,7 +10,7 @@ import HomeIcon from '@mui/icons-material/Home'
 import PublishIcon from '@mui/icons-material/Publish'
 import MoreIcon from '@mui/icons-material/MoreHoriz'
 
-const VerticalSidebar = ({ openLoginModal }) => {
+const VerticalSidebar = ({ openLoginModal, loggedIn, onLogout }) => {
   const navigate = useNavigate()
 
   const navigateToPublish = () => {
@@ -23,6 +23,10 @@ const VerticalSidebar = ({ openLoginModal }) => {
 
   const openLoginCB = () => {
     openLoginModal()
+  }
+
+  const handleLogout = () => {
+    onLogout()
   }
 
   return (
@@ -47,13 +51,25 @@ const VerticalSidebar = ({ openLoginModal }) => {
         </ListItemButton>
       </ListItem>
       <ListItem disablePadding>
-        <ListItemButton onClick={openLoginCB}>
+        <ListItemButton onClick={openLoginCB} disabled={Boolean(loggedIn)}>
           <ListItemIcon>
             <MoreIcon />
           </ListItemIcon>
-          <ListItemText primary="Login" />
+          <ListItemText primary={loggedIn ? loggedIn : 'Login'} />
         </ListItemButton>
       </ListItem>
+      {loggedIn ? (
+        <ListItem disablePadding>
+          <ListItemButton onClick={handleLogout}>
+            <ListItemIcon>
+              <MoreIcon />
+            </ListItemIcon>
+            <ListItemText primary="Logout" />
+          </ListItemButton>
+        </ListItem>
+      ) : (
+        <></>
+      )}
       <ListItem disablePadding>
         <ListItemButton>
           <ListItemIcon>

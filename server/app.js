@@ -27,6 +27,5 @@ app.use('/posts', postsRouter)
 app.use('/', indexRouter)
 app.use('/users', usersRouter)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
-// app.use('/uploads', express.static('uploads'));
 
 module.exports = app

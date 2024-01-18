@@ -21,11 +21,44 @@ const style = {
   borderRadius: 1,
 }
 
-const LoginModal = ({ open, onClose }) => {
-  const handleSubmit = (event) => {
+const LoginModal = ({ open, onClose, onLogin }) => {
+  const loggedIn = (email) => {
+    onLogin(email)
+  }
+
+  const handleSubmit = async (event) => {
     event.preventDefault()
-    console.log(event)
-    // Handle the form submission logic
+    const data = new FormData(event.currentTarget)
+    const email = data.get('email')
+    const password = data.get('password')
+
+    try {
+      const response = await fetch('http://localhost:1234/users/auth', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      })
+
+      const result = await response.json()
+      if (result.token) {
+        // Store the token in local storage or in a cookie
+        localStorage.setItem('token', result.token)
+        // Update the application state to indicate the user is logged in
+        loggedIn(email)
+        alert('Authentication successful')
+      } else {
+        alert('Authentication failed')
+      }
+      // Handle response here
+    } catch (error) {
+      // Handle errors here
+      console.error('Error during the POST request:', error)
+    }
   }
 
   return (
@@ -39,7 +72,7 @@ const LoginModal = ({ open, onClose }) => {
         <Typography id="login-modal-title" variant="h6" component="h2">
           Sign In
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
           <TextField
             margin="normal"
             required

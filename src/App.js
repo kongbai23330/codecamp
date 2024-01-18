@@ -15,6 +15,22 @@ class App extends React.Component {
   state = {
     searchVal: '',
     isLoginOpen: false,
+    loggedIn: null,
+  }
+
+  componentDidMount = async () => {
+    const token = localStorage.getItem('token')
+    if (token) {
+      const response = await fetch('http://localhost:1234/users/verify', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      const data = await response.json()
+      if (response.ok) {
+        this.userLoggedIn(data.email)
+      }
+    }
   }
 
   searchValUpdate = (e) => {
@@ -27,6 +43,15 @@ class App extends React.Component {
 
   closeLoginModal = () => {
     this.setState({ isLoginOpen: false })
+  }
+
+  userLoggedIn = (email) => {
+    this.setState({ loggedIn: email })
+  }
+
+  userLoggedOut = () => {
+    localStorage.removeItem('token')
+    this.setState({ loggedIn: null })
   }
 
   render() {
@@ -74,7 +99,11 @@ class App extends React.Component {
           <Box sx={{ display: 'flex', flexGrow: 1 }}>
             {/* Sidebar */}
             <Box sx={{ pt: '64px', width: '256px' }}>
-              <VerticalSidebar openLoginModal={this.openLoginModal} />
+              <VerticalSidebar
+                openLoginModal={this.openLoginModal}
+                loggedIn={this.state.loggedIn}
+                onLogout={this.userLoggedOut}
+              />
             </Box>
 
             {/* Main content */}
@@ -82,6 +111,7 @@ class App extends React.Component {
               <LoginModal
                 open={this.state.isLoginOpen}
                 onClose={this.closeLoginModal}
+                onLogin={this.userLoggedIn}
               />
               <Routes>
                 <Route
@@ -91,7 +121,6 @@ class App extends React.Component {
                 <Route path="/SecondPage" element={<SecondPage />} />
                 <Route path="/post/:id" element={<Post />} />
                 <Route path="/publish" element={<PublishForm />} />
-                {/* Add more routes as needed */}
               </Routes>
             </Box>
           </Box>

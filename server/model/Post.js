@@ -10,6 +10,10 @@ const postSchema = new mongoose.Schema({
     required: true,
   },
   images: [String],
+  creator: {
+    type: String,
+    required: true,
+  },
   createdAt: {
     type: Date,
     default: Date.now,
