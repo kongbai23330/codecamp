@@ -1,15 +1,9 @@
 // PublishForm.js
-<<<<<<< HEAD
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Box, TextField, Button, Grid, Stack } from '@mui/material'
-=======
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, TextField, Button, Card, CardContent, Grid, IconButton, Tooltip } from '@mui/material';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import CloseIcon from '@mui/icons-material/Close';
->>>>>>> feaef30f6736f791478dc7218849b031819e7204
 
 const PublishForm = ({ user }) => {
   const navigate = useNavigate()
@@ -75,15 +69,6 @@ const PublishForm = ({ user }) => {
     }
   }
 
-<<<<<<< HEAD
-  const buttonStyle = {
-    backgroundColor: '#0052A3',
-    color: '#fff',
-    '&:hover': {
-      backgroundColor: '#003c7e', 
-    },
-  };
-=======
   return (
     <Card sx={{ maxWidth: 1000, mx: 'auto', mt: 2, mb: 4 }}>
       <CardContent>
@@ -161,66 +146,5 @@ const PublishForm = ({ user }) => {
     </Card>
   );
 }
->>>>>>> feaef30f6736f791478dc7218849b031819e7204
 
-  return (
-    <Box component="form" noValidate autoComplete="off" onSubmit={handleSubmit} sx={{ p: 3 }}>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <TextField
-            fullWidth
-            label="Title"
-            margin="normal"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            fullWidth
-            label="Description"
-            margin="normal"
-            multiline
-            rows={4}
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <Stack direction="row" spacing={2} justifyContent="flex-start">
-            <input
-              accept="image/*"
-              style={{ display: 'none' }}
-              id="raised-button-file"
-              multiple
-              type="file"
-              onChange={handleImageChange}
-            />
-            <label htmlFor="raised-button-file">
-              <Button variant="contained" component="span" sx={buttonStyle}>
-                Upload Image(s)
-              </Button>
-            </label>
-            <Button type="submit" variant="contained" sx={buttonStyle}>
-              Publish
-            </Button>
-          </Stack>
-        </Grid>
-        <Grid item xs={12}>
-          <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 2 }}>
-            {imagePreviews.map((preview, index) => (
-              <img
-                key={index}
-                src={preview}
-                alt={`Preview ${index}`}
-                style={{ width: '100%', height: 'auto' }}
-              />
-            ))}
-          </Box>
-        </Grid>
-      </Grid>
-    </Box>
-  );
-};
-
-export default PublishForm;
+export default PublishForm
