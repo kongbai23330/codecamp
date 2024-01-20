@@ -5,20 +5,30 @@ import {
   Box,
   Typography,
   Modal,
-  Divider,
+  CardContent,
+  Card
 } from '@mui/material'
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#033375', 
+    },
+   
+  },
+});
 const style = {
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
   bgcolor: 'background.paper',
   boxShadow: 24,
-  p: 4,
-  borderRadius: 1,
-}
+  borderRadius: 4,
+  // Add responsive width
+  width: { xs: '90%', sm: 400 },
+};
 
 const LoginModal = ({ open, onClose, onLogin }) => {
   const loggedIn = (email) => {
@@ -62,50 +72,56 @@ const LoginModal = ({ open, onClose, onLogin }) => {
   }
 
   return (
-    <Modal
-      open={open}
-      onClose={onClose}
-      aria-labelledby="login-modal-title"
-      aria-describedby="login-modal-description"
-    >
-      <Box sx={style}>
-        <Typography id="login-modal-title" variant="h6" component="h2">
-          Sign In
-        </Typography>
-        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            sign in
-          </Button>
-          
-        </Box>
-      </Box>
-    </Modal>
-  )
+    <ThemeProvider theme={theme}>
+      <Modal
+        open={open}
+        onClose={onClose}
+        aria-labelledby="login-modal-title"
+        aria-describedby="login-modal-description"
+      >
+        <Card sx={style}>
+          <CardContent>
+            <Typography id="login-modal-title" variant="h6" component="h2" color="primary" gutterBottom>
+              Sign In
+            </Typography>
+            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                variant="outlined"
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                variant="outlined"
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                sx={{ mt: 3, mb: 2, '&:hover': { backgroundColor: 'secondary.main' } }}
+              >
+                SIGN IN
+              </Button>
+            </Box>
+          </CardContent>
+        </Card>
+      </Modal>
+    </ThemeProvider>
+  );
 }
 
 export default LoginModal
