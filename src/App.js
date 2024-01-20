@@ -1,69 +1,67 @@
-// App.js
-import React from 'react'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import Page from './component/Page'
-import Post from './component/Post'
-import { Box, Typography } from '@mui/material'
-import SearchBar from './component/SearchBar'
-import VerticalSidebar from './component/VerticalSidebar'
-import SecondPage from './component/SecondPage'
-import UserInfo from './component/UserInfo'
-import PublishForm from './component/PublishForm'
-import LoginModal from './component/LoginModal'
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Page from './component/Page';
+import Post from './component/Post';
+import { Box, Typography } from '@mui/material';
+import SearchBar from './component/SearchBar';
+import VerticalSidebar from './component/VerticalSidebar';
+import SecondPage from './component/SecondPage';
+import UserInfo from './component/UserInfo';
+import PublishForm from './component/PublishForm';
+import LoginModal from './component/LoginModal';
 
 class App extends React.Component {
   state = {
     searchVal: '',
     isLoginOpen: false,
     loggedIn: null,
-  }
+  };
 
   componentDidMount = async () => {
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem('token');
     if (token) {
-      const response = await fetch('http://localhost:1234/users/verify', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      const data = await response.json()
-      if (response.ok) {
-        this.userLoggedIn(data.email)
+      try {
+        const response = await fetch('http://localhost:1234/users/verify', {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+        const data = await response.json();
+        if (response.ok) {
+          this.setState({ loggedIn: data.email });
+        } else {
+          console.error(data.message);
+          // Handle error, e.g. token might be invalid or expired
+          this.userLoggedOut();
+        }
+      } catch (error) {
+        console.error('Error verifying token:', error);
       }
-    }
-  }
-  onSearch = async (searchQuery) => {
-    try {
-      const response = await fetch(`http://localhost:1234/posts/search?q=${encodeURIComponent(searchQuery)}`);
-      const results = await response.json();
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      this.setState({ searchVal: searchQuery, posts: results });
-    } catch (error) {
-      console.error('Search failed:', error);
     }
   };
+
   searchValUpdate = (e) => {
-    this.setState({ searchVal: e })
-  }
+    this.setState({ searchVal: e.target.value });
+  };
 
   openLoginModal = () => {
-    this.setState({ isLoginOpen: true })
-  }
+    this.setState({ isLoginOpen: true });
+  };
 
   closeLoginModal = () => {
-    this.setState({ isLoginOpen: false })
-  }
+    this.setState({ isLoginOpen: false });
+  };
 
   userLoggedIn = (email) => {
-    this.setState({ loggedIn: email })
-  }
+    this.setState({ loggedIn: email });
+    this.closeLoginModal();
+  };
 
   userLoggedOut = () => {
-    localStorage.removeItem('token')
-    this.setState({ loggedIn: null })
-  }
+    localStorage.removeItem('token');
+    this.setState({ loggedIn: null });
+  };
 
   render() {
     return (
@@ -95,53 +93,41 @@ class App extends React.Component {
                 justifyContent: 'center',
               }}
             >
-              <SearchBar onSearch={this.onSearch} />
+              <SearchBar updateSearch={this.searchValUpdate} />
             </Box>
-            <Box
-              sx={{
-                flexGrow: 0,
-              }}
-            >
-              <UserInfo />
-            </Box>
+            <UserInfo
+              loggedIn={this.state.loggedIn}
+              openLoginModal={this.openLoginModal}
+              onLogout={this.userLoggedOut}
+            />
           </Box>
 
           {/* Main content area */}
           <Box sx={{ display: 'flex', flexGrow: 1 }}>
             {/* Sidebar */}
             <Box sx={{ pt: '64px', width: '256px' }}>
-              <VerticalSidebar
-                openLoginModal={this.openLoginModal}
-                loggedIn={this.state.loggedIn}
-                onLogout={this.userLoggedOut}
-              />
+              <VerticalSidebar loggedIn={this.state.loggedIn} />
             </Box>
 
             {/* Main content */}
             <Box sx={{ flexGrow: 1, p: 3 }}>
-              <LoginModal
-                open={this.state.isLoginOpen}
-                onClose={this.closeLoginModal}
-                onLogin={this.userLoggedIn}
-              />
               <Routes>
-                <Route
-                  path="/"
-                  element={<Page searchVal={this.state.searchVal} />}
-                />
+                <Route path="/" element={<Page searchVal={this.state.searchVal} />} />
                 <Route path="/SecondPage" element={<SecondPage />} />
                 <Route path="/post/:id" element={<Post />} />
-                <Route
-                  path="/publish"
-                  element={<PublishForm user={this.state.loggedIn} />}
-                />
+                <Route path="/publish" element={<PublishForm user={this.state.loggedIn} />} />
               </Routes>
             </Box>
           </Box>
+          <LoginModal
+            open={this.state.isLoginOpen}
+            onClose={this.closeLoginModal}
+            onLogin={this.userLoggedIn}
+          />
         </Box>
       </Router>
-    )
+    );
   }
 }
 
-export default App
+export default App;
