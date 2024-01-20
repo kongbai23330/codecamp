@@ -7,7 +7,6 @@ import {
   Modal,
   Divider,
 } from '@mui/material'
-import GoogleIcon from '@mui/icons-material/Google'
 
 const style = {
   position: 'absolute',
@@ -102,16 +101,7 @@ const LoginModal = ({ open, onClose, onLogin }) => {
           >
             sign in
           </Button>
-          <Divider sx={{ my: 2 }}>OR</Divider>
-          <Button
-            type="button"
-            fullWidth
-            variant="outlined"
-            startIcon={<GoogleIcon />}
-            sx={{ mb: 2 }}
-          >
-            Login with Google
-          </Button>
+          
         </Box>
       </Box>
     </Modal>
