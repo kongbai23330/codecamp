@@ -32,7 +32,18 @@ class App extends React.Component {
       }
     }
   }
-
+  onSearch = async (searchQuery) => {
+    try {
+      const response = await fetch(`http://localhost:1234/posts/search?q=${encodeURIComponent(searchQuery)}`);
+      const results = await response.json();
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      this.setState({ searchVal: searchQuery, posts: results });
+    } catch (error) {
+      console.error('Search failed:', error);
+    }
+  };
   searchValUpdate = (e) => {
     this.setState({ searchVal: e })
   }
@@ -84,7 +95,7 @@ class App extends React.Component {
                 justifyContent: 'center',
               }}
             >
-              <SearchBar updateSearch={this.searchValUpdate} />
+              <SearchBar onSearch={this.onSearch} />
             </Box>
             <Box
               sx={{
