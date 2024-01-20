@@ -1,14 +1,16 @@
 // PublishForm.js
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Box, TextField, Button } from '@mui/material'
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Box, TextField, Button, Card, CardContent, Grid, IconButton, Tooltip } from '@mui/material';
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import CloseIcon from '@mui/icons-material/Close';
 
 const PublishForm = ({ user }) => {
   const navigate = useNavigate()
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [imagePreviews, setImagePreviews] = useState([])
-
+  const [images, setImages] = useState([]);
   const handleImageChange = (event) => {
     if (event.target.files) {
       const files = event.target.files
@@ -21,6 +23,18 @@ const PublishForm = ({ user }) => {
       setImagePreviews(previews)
     }
   }
+  const handleRemoveImage = (index) => {
+    // Remove the image from the images and imagePreviews array
+    const newImages = [...images];
+    const newImagePreviews = [...imagePreviews];
+    newImages.splice(index, 1);
+    newImagePreviews.splice(index, 1);
+    setImages(newImages);
+    setImagePreviews(newImagePreviews);
+
+    // Revoke the object URL to avoid memory leaks
+    URL.revokeObjectURL(imagePreviews[index]);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -56,51 +70,81 @@ const PublishForm = ({ user }) => {
   }
 
   return (
-    <Box component="form" noValidate autoComplete="off" onSubmit={handleSubmit}>
-      <TextField
-        fullWidth
-        label="Title"
-        margin="normal"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
-      <TextField
-        fullWidth
-        label="Description"
-        margin="normal"
-        multiline
-        rows={4}
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-      />
-      <input
-        accept="image/*"
-        style={{ display: 'none' }}
-        id="raised-button-file"
-        multiple
-        type="file"
-        onChange={handleImageChange}
-      />
-      <label htmlFor="raised-button-file">
-        <Button variant="contained" component="span">
-          Upload Image(s)
-        </Button>
-      </label>
-      <Box>
-        {imagePreviews.map((preview, index) => (
-          <img
-            key={index}
-            src={preview}
-            alt={`Preview ${index}`}
-            style={{ maxHeight: '100px', margin: '10px' }}
-          />
-        ))}
-      </Box>
-      <Button type="submit" variant="contained" color="primary">
-        Publish
-      </Button>
-    </Box>
-  )
+    <Card sx={{ maxWidth: 1000, mx: 'auto', mt: 2, mb: 4 }}>
+      <CardContent>
+        <Box component="form" noValidate autoComplete="off" onSubmit={handleSubmit}>
+          <Grid container direction="column" spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Title"
+                margin="normal"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={120}>
+              <TextField
+                fullWidth
+                label="Description"
+                margin="normal"
+                multiline
+                rows={10}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <input
+                accept="image/*"
+                style={{ display: 'none' }}
+                id="raised-button-file"
+                multiple
+                type="file"
+                onChange={handleImageChange}
+              />
+              <Tooltip title="Upload Image">
+                <IconButton color="primary" aria-label="upload picture" component="span">
+                  <label htmlFor="raised-button-file">
+                    <PhotoCamera />
+                  </label>
+                </IconButton>
+              </Tooltip>
+              
+            </Grid>
+
+            <Grid item xs={12}>
+              <Box sx={{ display: 'flex', justifyContent: 'flex-start', flexWrap: 'wrap' }}>
+                {imagePreviews.map((preview, index) => (
+                  <Box key={index} sx={{ position: 'relative', width: '100px', marginRight: '8px', marginBottom: '8px' }}>
+                    <img src={preview} alt={`Preview ${index}`} style={{ width: '100%', height: 'auto' }} />
+                    <IconButton
+                      size="small"
+                      sx={{
+                        position: 'absolute',
+                        top: 0,
+                        right: 0,
+                        color: 'grey.100',
+                        '&:hover': { color: 'error.main' },
+                      }}
+                      onClick={() => handleRemoveImage(index)}
+                    >
+                      <CloseIcon fontSize="small" />
+                    </IconButton>
+                  </Box>
+                ))}
+              </Box>
+            </Grid>
+            <Grid item xs={12} container justifyContent="flex-end">
+              <Button type="submit" variant="contained" color="primary">
+                Publish
+              </Button>
+            </Grid>
+          </Grid>
+        </Box>
+      </CardContent>
+    </Card>
+  );
 }
 
 export default PublishForm

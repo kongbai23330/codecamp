@@ -45,7 +45,7 @@
   flex-direction: column;
   align-items: center;
   /* Align the form to the center */
-  justify-content: start;
+  justify-content: flex-start;
   /* Align the content to the start */
   padding: 16px;
   width: 100%;
