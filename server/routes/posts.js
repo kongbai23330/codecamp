@@ -34,14 +34,46 @@ router.post(
   },
 )
 
+// Add this to your Express router file
+
 router.get('/', async (req, res, next) => {
+  const page = parseInt(req.query.page) || 0; // Default to page 0 if not provided
+  const limit = parseInt(req.query.limit) || 20; // Default limit is 20
+
   try {
     const posts = await Post.find()
-    res.json(posts)
+      .skip(page * limit) // Skip the previous pages
+      .limit(limit) // Limit the number of results
+      .sort({ createdAt: -1 }); // Sort by creation date, newest first
+
+    res.json(posts);
   } catch (err) {
-    next(err)
+    next(err);
   }
-})
+});
+
+
+// Add this to your Express router file
+
+router.get('/search', async (req, res) => {
+  const searchQuery = req.query.q || '';
+  try {
+    // Use MongoDB's text search or regex search features.
+    // For larger datasets, consider creating a text index and using $text operator.
+    const posts = await Post.find({ 
+      $or: [
+        { title: new RegExp(searchQuery, 'i') },
+        { content: new RegExp(searchQuery, 'i') }
+        // Add other fields if you want to search through them as well.
+      ]
+    });
+    res.json(posts);
+  } catch (error) {
+    res.status(500).send('Server error');
+  }
+});
+
+
 
 router.get('/detail', async (req, res) => {
   try {
