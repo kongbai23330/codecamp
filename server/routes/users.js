@@ -26,7 +26,7 @@ router.post('/auth', async (req, res) => {
     }
   }
   // Create and send the token
-  const payload = { user: { email: email } }
+  const payload = { user: { email: email, id: user._doc._id } }
   jwt.sign(payload, 'codecamp2024', { expiresIn: '1h' }, (err, token) => {
     if (err) throw err
     res.json({ token })

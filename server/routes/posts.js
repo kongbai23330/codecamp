@@ -4,6 +4,7 @@ const multer = require('multer')
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })
 const authMiddleware = require('../middleware/auth')
+const Comment = require('../model/Comment');
 
 var Post = require('../model/Post')
 
@@ -34,17 +35,15 @@ router.post(
   },
 )
 
-// Add this to your Express router file
-
 router.get('/', async (req, res, next) => {
-  const page = parseInt(req.query.page) || 0; // Default to page 0 if not provided
-  const limit = parseInt(req.query.limit) || 20; // Default limit is 20
+  const page = parseInt(req.query.page) || 0; 
+  const limit = parseInt(req.query.limit) || 20; 
 
   try {
     const posts = await Post.find()
-      .skip(page * limit) // Skip the previous pages
-      .limit(limit) // Limit the number of results
-      .sort({ createdAt: -1 }); // Sort by creation date, newest first
+      .skip(page * limit)
+      .limit(limit) 
+      .sort({ createdAt: -1 });
 
     res.json(posts);
   } catch (err) {
@@ -52,19 +51,13 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-
-// Add this to your Express router file
-
 router.get('/search', async (req, res) => {
   const searchQuery = req.query.q || '';
   try {
-    // Use MongoDB's text search or regex search features.
-    // For larger datasets, consider creating a text index and using $text operator.
     const posts = await Post.find({ 
       $or: [
         { title: new RegExp(searchQuery, 'i') },
         { content: new RegExp(searchQuery, 'i') }
-        // Add other fields if you want to search through them as well.
       ]
     });
     res.json(posts);
@@ -87,4 +80,36 @@ router.get('/detail', async (req, res) => {
   }
 })
 
-module.exports = router
+
+router.post('/comment', authMiddleware, async (req, res) => {
+  const { content, postId } = req.body;
+  const creator = req.user.email;
+  console.log(req.user, 'admin')
+  try {
+    const newComment = new Comment({
+      content,
+      postId,
+      creator
+    });
+
+    const savedComment = await newComment.save();
+    res.status(201).json(savedComment);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+router.get('/comments', async (req, res) => {
+  console.log(23432423)
+  const postId = req.query.postId;
+
+  try {
+    const comments = await Comment.find({ postId }).sort({ createdAt: -1 });
+    res.json(comments);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+
+module.exports = router;
