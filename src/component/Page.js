@@ -55,7 +55,8 @@ class Page extends React.Component {
   };
 
   render() {
-    const { posts } = this.state;
+    const { searchVal, searchResults } = this.props;
+    const posts = searchResults || this.state.posts;
 
     const ImageCardStyled = styled(ImageCard)({
       maxWidth: '250px',
