@@ -15,6 +15,7 @@ class App extends React.Component {
     searchVal: '',
     isLoginOpen: false,
     loggedIn: null,
+    searchResults: null,
   };
 
   componentDidMount = async () => {
@@ -40,7 +41,18 @@ class App extends React.Component {
       }
     }
   };
-
+  onSearch = async (searchQuery) => {
+    try {
+      const response = await fetch(`http://localhost:1234/posts/search?q=${encodeURIComponent(searchQuery)}`);
+      const results = await response.json();
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      this.setState({ searchVal: searchQuery, searchResults: results });
+    } catch (error) {
+      console.error('Search failed:', error);
+    }
+  };
   searchValUpdate = (e) => {
     this.setState({ searchVal: e.target.value });
   };
@@ -93,7 +105,7 @@ class App extends React.Component {
                 justifyContent: 'center',
               }}
             >
-              <SearchBar updateSearch={this.searchValUpdate} />
+              <SearchBar onSearch={this.onSearch} />
             </Box>
             <UserInfo
               loggedIn={this.state.loggedIn}
@@ -112,7 +124,7 @@ class App extends React.Component {
             {/* Main content */}
             <Box sx={{ flexGrow: 1, p: 3 }}>
               <Routes>
-                <Route path="/" element={<Page searchVal={this.state.searchVal} />} />
+              <Route path="/" element={<Page searchVal={this.state.searchVal} searchResults={this.state.searchResults} />} />
                 <Route path="/SecondPage" element={<SecondPage />} />
                 <Route path="/post/:id" element={<Post />} />
                 <Route path="/publish" element={<PublishForm user={this.state.loggedIn} />} />
